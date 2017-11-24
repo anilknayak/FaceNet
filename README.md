@@ -2,7 +2,7 @@
 Face Recognition 
 
 ## Library Used:
-1. Dlib : To detect face and prepare face images for training
+1. <b>Dlib</b> : To detect face and prepare face images for training
 2. imutils : for utility purpose
 3. cv2 : camera and image read & write, image bluring
 4. tensorflow : prepare and training network for face recognition
