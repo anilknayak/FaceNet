@@ -43,28 +43,28 @@ Face Recognition
   <b><code>"pre_processing_required":false</code></b>
   
 3.  Change the following properties for folder training details
-"training":{ </br>
+</br>"training":{ </br>
     "base_directory":"/FaceNet/",   ### Base Folder of Api </br>
     "image_directory" : "images/",  ### Image folder in side base_directory </br>
-    "training_data_folder" : "images/train/", 
-    "testing_data_folder" : "images/test/",
-    "structure_of_data": "folder",
-    "random_shuffle":true,  ### if you want to have random shuffle of data for training and testing
-    "training_size_percentage":95, ### splitting of data into training 95% and testing 5%
-    "training_steps":100, ### number of epoch for training 
-    "batch_size":24, ### Batch side for training
-    "learning_rate":0.001 ### initial learning rate
-  },
+    "training_data_folder" : "images/train/", </br>
+    "testing_data_folder" : "images/test/",</br>
+    "structure_of_data": "folder",</br>
+    "random_shuffle":true,  ### if you want to have random shuffle of data for training and testing</br>
+    "training_size_percentage":95, ### splitting of data into training 95% and testing 5%</br>
+    "training_steps":100, ### number of epoch for training </br>
+    "batch_size":24, ### Batch side for training</br>
+    "learning_rate":0.001 ### initial learning rate</br>
+  },</br>
 
   
  4. Then change tje 
- <code>
-  "network_config":{
-    "tensor_name":"auto", ### auto generated tensor name
-    "input_size":"auto", ### input layer side auto decided as per the image structrue mentioned as above 180x180
-    "output_size":"auto", ### output size will be decided on number of class folders are there in image/data directory as mentioned above
-    "network":[...] ### Heart of the network lies here. Check the sample configuration file and check the network configuration and play with it more as you understand 
-    </code>
+</br>
+  "network_config":{</br>
+    "tensor_name":"auto", ### auto generated tensor name</br>
+    "input_size":"auto", ### input layer side auto decided as per the image structrue mentioned as above 180x180</br>
+    "output_size":"auto", ### output size will be decided on number of class folders are there in image/data directory as mentioned above</br>
+    "network":[...] </br>### Heart of the network lies here. Check the sample configuration file and check the network configuration and play with it more as you understand </br>
+
 ### Outcome
 As I have trainined with 460 faces of 28 classes, i have got 68% of accuracy 
     
