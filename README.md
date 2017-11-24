@@ -57,7 +57,7 @@ Face Recognition
   },</br>
 
   
- 4. Then change tje 
+ 4. Then change network configuration 
 </br>
   "network_config":{</br>
     "tensor_name":"auto", ### auto generated tensor name</br>
