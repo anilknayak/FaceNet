@@ -13,11 +13,11 @@ Face Recognition
       - images
         - data
           - class 1
-              -- image 1
-              -- image 2
+              - image 1
+              - image 2
           - class 2
-              -- image 1
-              -- image 2
+              - image 1
+              - image 2
   
   #### Note: 
   1. All the above example as folder named as class 1 and class 2 folders, defines the class label for each training data
