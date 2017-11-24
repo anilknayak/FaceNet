@@ -65,6 +65,8 @@ Face Recognition
     "output_size":"auto", ### output size will be decided on number of class folders are there in image/data directory as mentioned above</br>
     "network":[...] </br>### Heart of the network lies here. Check the sample configuration file and check the network configuration and play with it more as you understand </br>
 
+### Run <train.py>
+
 ### Outcome
 As I have trainined with 460 faces of 28 classes, i have got 68% of accuracy 
     
