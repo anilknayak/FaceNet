@@ -3,9 +3,9 @@ Face Recognition
 
 ## Library Used:
 1. <b>Dlib</b> : To detect face and prepare face images for training
-2. imutils : for utility purpose
-3. cv2 : camera and image read & write, image bluring
-4. tensorflow : prepare and training network for face recognition
+2. <b>imutils</b> : for utility purpose
+3. <b>cv2</b> : camera and image read & write, image bluring
+4. <b>tensorflow</b> : prepare and training network for face recognition
 
 ## How to Use this Lib
 ### 1. Have your all training images in like below folder structure
@@ -23,9 +23,9 @@ Face Recognition
   1. All the above example as folder named as class 1 and class 2 folders, defines the class label for each training data
   2. Images could be a single faces of 180x180 size or could be a large image i.e. 600x1200 having single or multiple face
  
- ### 2. Edit face_recognition.config file for your training
+ ### 2. Edit <face_recognition.config> file for your training
 1. First of all, if you have large image then your need to have pre processing to identify the faces in the image and prepare the class for training, as you have already prepared your class label as folder name and copied all class specific images inside.
- then update "pre_processing_required":true option to true so that it will prepare the training face images of 180x180 or you have change the side of the image you have to prepare in 
+ then update <b>"pre_processing_required":true</b> option to true so that it will prepare the training face images of 180x180 or you have change the side of the image you have to prepare in 
  "image" :{
     "resize": {
       "width":180,
@@ -37,7 +37,7 @@ Face Recognition
   }
   
 2. if you have already have face images of 180x180 or 28x28 or 36x36 or 200x200 for training then you can make the option
-  "pre_processing_required":false
+  <b>"pre_processing_required":false</b>
   
 3.  Change the following properties for folder training details
 "training":{
@@ -63,6 +63,6 @@ Face Recognition
     
 ### Outcome
 As I have trainined with 460 faces of 28 classes, i have got 68% of accuracy 
-    }
+    
 
 
