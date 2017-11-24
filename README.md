@@ -27,22 +27,23 @@ Face Recognition
 1. First of all, if you have large image then your need to have pre processing to identify the faces in the image and prepare the class for training, as you have already prepared your class label as folder name and copied all class specific images inside.
  then update <b>"pre_processing_required":true</b> option to true so that it will prepare the training face images of 180x180 or you have change the side of the image you have to prepare in 
  
- <code>"image" :{ </br>
-    "resize": {</br>
-      "width":180,</br>
-      "height":180,</br>
-      "required": false</br>
-    },</br>
-    "width":180,</br>
-    "height":180</br>
-  }</br>
-   </code>
+ <code>
+   "image" :{ 
+    "resize": {
+      "width":180,
+      "height":180,
+      "required": false
+    },
+    "width":180,
+    "height":180
+  }
+  </code>
   
 2. if you have already have face images of 180x180 or 28x28 or 36x36 or 200x200 for training then you can make the option
-  <b>"pre_processing_required":false</b>
+  <b><code>"pre_processing_required":false</code></b>
   
 3.  Change the following properties for folder training details
-"training":{
+<code>"training":{
     "base_directory":"/FaceNet/",   ### Base Folder of Api
     "image_directory" : "images/",  ### Image folder in side base_directory
     "training_data_folder" : "images/train/", 
@@ -54,15 +55,16 @@ Face Recognition
     "batch_size":24, ### Batch side for training
     "learning_rate":0.001 ### initial learning rate
   },
+   </code>
   
  4. Then change tje 
- 
+ <code>
   "network_config":{
     "tensor_name":"auto", ### auto generated tensor name
     "input_size":"auto", ### input layer side auto decided as per the image structrue mentioned as above 180x180
     "output_size":"auto", ### output size will be decided on number of class folders are there in image/data directory as mentioned above
     "network":[...] ### Heart of the network lies here. Check the sample configuration file and check the network configuration and play with it more as you understand 
-    
+    </code>
 ### Outcome
 As I have trainined with 460 faces of 28 classes, i have got 68% of accuracy 
     
