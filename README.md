@@ -43,9 +43,9 @@ Face Recognition
   <b><code>"pre_processing_required":false</code></b>
   
 3.  Change the following properties for folder training details
-<code>"training":{
-    "base_directory":"/FaceNet/",   ### Base Folder of Api
-    "image_directory" : "images/",  ### Image folder in side base_directory
+"training":{ </br>
+    "base_directory":"/FaceNet/",   ### Base Folder of Api </br>
+    "image_directory" : "images/",  ### Image folder in side base_directory </br>
     "training_data_folder" : "images/train/", 
     "testing_data_folder" : "images/test/",
     "structure_of_data": "folder",
@@ -55,7 +55,7 @@ Face Recognition
     "batch_size":24, ### Batch side for training
     "learning_rate":0.001 ### initial learning rate
   },
-   </code>
+
   
  4. Then change tje 
  <code>
