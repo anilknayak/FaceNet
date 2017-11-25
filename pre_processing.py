@@ -89,10 +89,13 @@ class PreProcessing:
         self.prepare.data(config)
 
     def prepare_pickle_file(self,config):
-        config.data.pickle_file = "training_images.pickle"
+        config.data.pickle_file = config.pickle_data_file
         face_data = {}
+        face_data['label_image'] = config.data.label_image
         face_data['train'] = config.data.train_data
         face_data['test'] = config.data.test_data
+        face_data['classes'] = config.data.classes
+        face_data['classes_n'] = config.data.classes_count
         pickle_in = open(config.data.pickle_file, "wb")
         pickle.dump(face_data, pickle_in)
         pickle_in.close()

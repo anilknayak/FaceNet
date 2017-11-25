@@ -14,8 +14,10 @@ class Prepare:
         labels = []
         labels_number = []
         count = -1
+        label_image = {}
         for label in classes:
             count = count + 1
+            label_image[label] = cv2.imread("/labels/"+label+".jpg")
             for image_per_label in training_images_dict[label]:
                 # Smoothing and Variance Removal
                 gray_scale_image = cv2.cvtColor(image_per_label, cv2.COLOR_BGR2GRAY)
@@ -51,3 +53,4 @@ class Prepare:
 
         config.data.train_data = training
         config.data.test_data = testing
+        config.data.label_image = label_image

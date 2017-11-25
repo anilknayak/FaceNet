@@ -9,6 +9,7 @@ class Data:
         self.train_data = None
         self.test_data = None
         self.validation_data = None
+        self.label_image = None
 
         self.face_data = None
 

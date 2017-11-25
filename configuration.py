@@ -24,3 +24,6 @@ class Configuration:
 
         self.data = None
 
+        self.pickle_data_file = None
+        self.prepare_pickle_file = None
+

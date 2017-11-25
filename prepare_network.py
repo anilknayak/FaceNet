@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.contrib.layers import flatten
 from tqdm import tqdm
 from tensorflow.python.platform import gfile
-
+from tensorflow.python.tools import freeze_graph
 class Network:
     def __init__(self):
         self.sess = tf.InteractiveSession()
@@ -48,14 +48,20 @@ class Network:
 
     def relu_layer(self, prev_layer, layer):
         if layer['flatten']:
-            return flatten(tf.nn.relu(prev_layer, name='flatten_' + layer['name']))
+            return flatten(tf.nn.relu(prev_layer, name=layer['name']))
         else:
             return tf.nn.relu(prev_layer, name=layer['name'])
+
+    def sigmoid_layer(self, prev_layer, layer):
+        return tf.nn.sigmoid(prev_layer, name=layer['name'])
+
+    # def output_detection_layer(self, prev_layer, layer):
+    #     max(prev_layer)
 
     def dense_layer(self, prev_layer, layer):
         fw = tf.Variable(tf.random_normal(layer['weights'], dtype=tf.float32), dtype=tf.float32)
         fb = tf.Variable(tf.random_normal([layer['weights'][-1]], dtype=tf.float32), dtype=tf.float32)
-        fc = tf.add(tf.matmul(prev_layer, fw), fb)
+        fc = tf.add(tf.matmul(prev_layer, fw), fb,name=layer['name'])
         return fc
 
     def build_model(self):
@@ -65,7 +71,7 @@ class Network:
         self.input_tensor = tf.placeholder(tf.float32,
                                            [None, neural_network_dict[0]['width'], neural_network_dict[0]['height'], 1],
                                            name='input_tensor')
-        self.output_tensor = tf.placeholder(tf.int32, (None))
+        self.output_tensor = tf.placeholder(tf.int32, (None), name='output_tensor')
         self.output_tensor_one_hot = tf.one_hot(self.output_tensor, classes_number)
 
         layers_op.append(self.input_tensor)
@@ -79,11 +85,13 @@ class Network:
                 layers_op.append(self.relu_layer(layers_op[-1], layer))
             elif layer['type'] == 'fc':
                 layers_op.append(self.dense_layer(layers_op[-1], layer))
+            elif layer['type'] == 'sigmoid':
+                layers_op.append(self.sigmoid_layer(layers_op[-1], layer))
 
-        self.output = layers_op[-1]
+        self.output = layers_op[-2]
         self.cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=self.output, labels=self.output_tensor_one_hot)
-        self.loss_operation = tf.reduce_mean(self.cross_entropy)
-        self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
+        self.loss_operation = tf.reduce_mean(self.cross_entropy,name="loss")
+        self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate,name="optimizer")
         self.model = self.optimizer.minimize(self.loss_operation)
         self.correct_prediction = tf.equal(tf.argmax(self.output, 1), tf.argmax(self.output_tensor_one_hot, 1))
         self.accuracy_operation = tf.reduce_mean(tf.cast(self.correct_prediction, tf.float32))
@@ -115,9 +123,36 @@ class Network:
 
                 print("Epoch Loss for epoch : ", str(i), " is ", epoch_loss)
 
-            graph = tf.get_default_graph()
-            saver.save(self.sess, './model/')
-            tf.train.write_graph(graph, './model/', 'train.pb')
+                if epoch_loss == 0.0:
+                    break
+
+            # graph = tf.get_default_graph()
+            checkpoint_prefix = './model/model.ckpt'
+            saver.save(self.sess, checkpoint_prefix) #,global_step=50
+            # tf.train.write_graph(graph, './model/', 'train.pb')
+            tf.train.write_graph(self.sess.graph.as_graph_def(), './model/', 'train.pb')
+
+            input_graph_path = './model/train.pb'
+            input_saver_def_path = ""
+            input_binary = False
+            input_checkpoint_path = checkpoint_prefix
+            output_graph_path = './model/train_model.pb'
+            clear_devices = False
+            output_node_names = "output_tensor,input_tensor,output,result,conv1,maxpool1,relu1,conv2,maxpool2,flatten_relu2,fc1,relu3,loss"
+            restore_op_name = "save/restore_all"
+            filename_tensor_name = "save/Const:0"
+            initializer_nodes = ""
+            freeze_graph.freeze_graph(input_graph_path,
+                                      input_saver_def_path,
+                                      input_binary,
+                                      input_checkpoint_path,
+                                      output_node_names,
+                                      restore_op_name,
+                                      filename_tensor_name,
+                                      output_graph_path,
+                                      clear_devices,
+                                      initializer_nodes)
+
 
     def test_model(self):
         images = self.test['images']

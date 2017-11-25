@@ -30,6 +30,8 @@ class SetUp:
             self.configuration.pre_processing_required = configuration_details_json['pre_processing_required']
             self.configuration.base_directory = configuration_details_json['training']['base_directory']
             self.configuration.image_directory = configuration_details_json['training']['image_directory']
+            self.configuration.pickle_data_file = configuration_details_json['pickle_data']
+            self.configuration.prepare_pickle_file = configuration_details_json['prepare_pickle_file']
 
             if configuration_details_json['network_config']['input_size'] == 'auto':
                 self.configuration.network[0]['width'] = self.configuration.image_w
@@ -39,19 +41,22 @@ class SetUp:
             number_of_classes = 0
 
             preproc = pp.PreProcessing()
-            if self.configuration.pre_processing_required:
-                # Read Data from training directory
-                # Prepare Face data and prepare post directory data dir
-                preproc.prepare_pre_procesing_folder_structure(self.configuration)
-                preproc.prepare_faces_from_training_images_for_training(self.configuration)
-                preproc.prepare_training_dictionary(self.configuration.post_processing_folder,self.configuration)
-                preproc.prepare_training_testing_data(self.configuration)
-                preproc.prepare_pickle_file(self.configuration)
+            if self.configuration.prepare_pickle_file:
+                if self.configuration.pre_processing_required:
+                    # Read Data from training directory
+                    # Prepare Face data and prepare post directory data dir
+                    preproc.prepare_pre_procesing_folder_structure(self.configuration)
+                    preproc.prepare_faces_from_training_images_for_training(self.configuration)
+                    preproc.prepare_training_dictionary(self.configuration.post_processing_folder,self.configuration)
+                    preproc.prepare_training_testing_data(self.configuration)
+                    preproc.prepare_pickle_file(self.configuration)
+                else:
+                    preproc.prepare_pre_procesing_folder_structure(self.configuration)
+                    preproc.prepare_training_dictionary(self.configuration.pre_processing_folder, self.configuration)
+                    preproc.prepare_training_testing_data(self.configuration)
+                    preproc.prepare_pickle_file(self.configuration)
             else:
-                preproc.prepare_pre_procesing_folder_structure(self.configuration)
-                preproc.prepare_training_dictionary(self.configuration.pre_processing_folder, self.configuration)
-                preproc.prepare_training_testing_data(self.configuration)
-                preproc.prepare_pickle_file(self.configuration)
+                preproc.load.data(self.configuration)
 
             if configuration_details_json['classes'] == 'auto':
                 number_of_classes = len(self.configuration.data.classes)
@@ -60,6 +65,8 @@ class SetUp:
 
             if configuration_details_json['network_config']['output_size'] == 'auto':
                 self.configuration.network[-1]['weights'][1] = number_of_classes
+                self.configuration.network[-1]['weights'][0] = number_of_classes
+                self.configuration.network[-2]['weights'][1] = number_of_classes
 
 
 
