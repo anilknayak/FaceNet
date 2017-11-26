@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="19b3127f-189e-4662-af1d-c13d1ec65afc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/data/README" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/README" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_image/README" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configuration.py" afterPath="$PROJECT_DIR$/configuration.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.py" afterPath="$PROJECT_DIR$/data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/face_recognition.config" afterPath="$PROJECT_DIR$/face_recognition.config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/load_data.py" afterPath="$PROJECT_DIR$/load_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pre_processing.py" afterPath="$PROJECT_DIR$/pre_processing.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prepare_data_training.py" afterPath="$PROJECT_DIR$/prepare_data_training.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prepare_network.py" afterPath="$PROJECT_DIR$/prepare_network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
-    </list>
+    <list default="true" id="19b3127f-189e-4662-af1d-c13d1ec65afc" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

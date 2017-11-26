@@ -3,6 +3,7 @@ from tensorflow.contrib.layers import flatten
 from tqdm import tqdm
 from tensorflow.python.platform import gfile
 from tensorflow.python.tools import freeze_graph
+import numpy as np
 class Network:
     def __init__(self):
         self.sess = tf.InteractiveSession()
@@ -23,6 +24,7 @@ class Network:
         self.test = None
         self.network = None
         self.class_number = None
+        self.classes = None
         # self.saver = tf.train.Saver()
 
     def prepare(self,configuration):
@@ -33,6 +35,7 @@ class Network:
         self.test = configuration.data.test_data
         self.network = configuration.network
         self.class_number = configuration.data.classes_count
+        self.classes = configuration.data.classes
 
     def conv_layer(self, prev_layer, layer):
         W = tf.Variable(tf.random_normal(layer['weights'], dtype=tf.float32), dtype=tf.float32)
@@ -55,8 +58,11 @@ class Network:
     def sigmoid_layer(self, prev_layer, layer):
         return tf.nn.sigmoid(prev_layer, name=layer['name'])
 
-    # def output_detection_layer(self, prev_layer, layer):
-    #     max(prev_layer)
+    def output_detection_layer(self, prev_layer, layer):
+        prediction = np.argmax(prev_layer)
+        # label_str = self.classes[prediction]
+        return tf.Variable(prediction, name=layer['name'])
+
 
     def dense_layer(self, prev_layer, layer):
         fw = tf.Variable(tf.random_normal(layer['weights'], dtype=tf.float32), dtype=tf.float32)
@@ -87,6 +93,8 @@ class Network:
                 layers_op.append(self.dense_layer(layers_op[-1], layer))
             elif layer['type'] == 'sigmoid':
                 layers_op.append(self.sigmoid_layer(layers_op[-1], layer))
+            elif layer['type'] == 'prediction':
+                layers_op.append(self.output_detection_layer(layers_op[-1], layer))
 
         self.output = layers_op[-2]
         self.cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=self.output, labels=self.output_tensor_one_hot)
@@ -122,7 +130,7 @@ class Network:
                     epoch_loss += loss
 
                 print("Epoch Loss for epoch : ", str(i), " is ", epoch_loss)
-
+                self.test_model()
                 if epoch_loss == 0.0:
                     break
 
@@ -138,7 +146,7 @@ class Network:
             input_checkpoint_path = checkpoint_prefix
             output_graph_path = './model/train_model.pb'
             clear_devices = False
-            output_node_names = "output_tensor,input_tensor,output,result,conv1,maxpool1,relu1,conv2,maxpool2,flatten_relu2,fc1,relu3,loss"
+            output_node_names = "output_tensor,input_tensor,output,prediction,conv1,maxpool1,relu1,conv2,maxpool2,flatten_relu2,fc1,relu3,loss"
             restore_op_name = "save/restore_all"
             filename_tensor_name = "save/Const:0"
             initializer_nodes = ""

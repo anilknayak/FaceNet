@@ -64,8 +64,12 @@ class SetUp:
                 number_of_classes = int(configuration_details_json['classes'])
 
             if configuration_details_json['network_config']['output_size'] == 'auto':
-                self.configuration.network[-1]['weights'][1] = number_of_classes
-                self.configuration.network[-1]['weights'][0] = number_of_classes
+                if len(self.configuration.network[-1]['weights']) == 1:
+                    self.configuration.network[-1]['weights'][0] = 1
+                else:
+                    self.configuration.network[-1]['weights'][1] = number_of_classes
+                    self.configuration.network[-1]['weights'][0] = number_of_classes
+
                 self.configuration.network[-2]['weights'][1] = number_of_classes
 
 
